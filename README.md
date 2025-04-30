@@ -13,11 +13,71 @@ To use the Data Encryption Standard (DES) algorithm for a practical application,
 
 ## Program:
 
+```
+#include <stdio.h>
+#include <string.h>
 
+// Function to perform a simple XOR-based encryption
+void encrypt(char *message, char *key, char *encryptedMessage, int messageLength) {
+    int keyLength = strlen(key);
+    for (int i = 0; i < messageLength; i++) {
+        // Encrypt by XORing message byte with key byte
+        encryptedMessage[i] = message[i] ^ key[i % keyLength];
+    }
+    encryptedMessage[messageLength] = '\0'; 
+}
+
+// Function to perform decryption (XOR again with the same key)
+void decrypt(char *encryptedMessage, char *key, char *decryptedMessage, int messageLength) {
+    int keyLength = strlen(key);
+    for (int i = 0; i < messageLength; i++) {
+        // Decrypt by XORing encrypted byte with key byte
+        decryptedMessage[i] = encryptedMessage[i] ^ key[i % keyLength];
+    }
+    decryptedMessage[messageLength] = '\0'; 
+}
+
+int main() {
+    char message[100];
+    char key[100];
+
+    printf("\n** Simulation of DES-style XOR encryption and decryption **\n\n");
+
+    printf("Enter the message to encrypt: ");
+    fgets(message, sizeof(message), stdin);
+    message[strcspn(message, "\n")] = '\0'; // Remove newline character if present
+
+    printf("Enter the encryption key: ");
+    fgets(key, sizeof(key), stdin);
+    key[strcspn(key, "\n")] = '\0'; // Remove newline character if present
+
+    int messageLength = strlen(message);
+
+    char encryptedMessage[100];
+    char decryptedMessage[100];
+
+    encrypt(message, key, encryptedMessage, messageLength);
+
+    printf("\nOriginal Message: %s\n", message);
+    printf("Encrypted Message (in hex): ");
+    for (int i = 0; i < messageLength; i++) {
+        printf("%02X ", (unsigned char)encryptedMessage[i]);
+    }
+    printf("\n");
+
+    decrypt(encryptedMessage, key, decryptedMessage, messageLength);
+    printf("Decrypted Message: %s\n", decryptedMessage);
+
+    return 0;
+}
+
+
+```
 
 
 ## Output:
 
+![image](https://github.com/user-attachments/assets/e7e18921-8a25-4dcb-92bd-5f51a51a66ac)
 
 ## Result:
   The program is executed successfully
